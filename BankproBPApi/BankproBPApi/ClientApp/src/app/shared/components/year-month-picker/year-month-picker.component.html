@@ -1,0 +1,13 @@
+<div [formGroup]="form" class="form-group">
+    <mat-form-field appearance="fill">
+        <mat-label>{{label}}</mat-label>
+        <input matInput [matDatepicker]="yearMonthPicker" placeholder="{{label}}" [formControlName]="name" id="{{name}}" type="text" readonly>             
+        <mat-datepicker-toggle matSuffix [for]="yearMonthPicker"></mat-datepicker-toggle>
+        <mat-datepicker #yearMonthPicker startView="year" (monthSelected)="yearMonthSelected($event,yearMonthPicker)"></mat-datepicker>        
+        <mat-error *ngIf="input.invalid && (input.dirty || input.touched)">
+            <div *ngIf="input.errors?.required">
+                {{label}}必輸
+            </div>
+        </mat-error>
+    </mat-form-field> 
+</div> 

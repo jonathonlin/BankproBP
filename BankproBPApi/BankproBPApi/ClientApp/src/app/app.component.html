@@ -1,0 +1,12 @@
+<div fxLayout="column" fxFill fxLayoutAlign="space-between" >
+    <app-header [sideNav]="drawer" fxShow="" *ngIf="!!currentUser"></app-header>
+    <mat-sidenav-container>
+        <mat-sidenav #drawer mode="side">
+            <app-sidenav *ngIf="!!currentUser" [sideNav]="drawer"></app-sidenav>
+        </mat-sidenav>
+        <mat-sidenav-content>            
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>    
+    <app-footer></app-footer>
+</div>

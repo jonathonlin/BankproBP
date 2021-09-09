@@ -1,0 +1,20 @@
+<div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div *ngFor="let formField of formFields" class="col-md-6">
+                <app-dynamic-form-input [input]="formField" [form]="form" (change)="onChange($event)"></app-dynamic-form-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">儲存</button>
+                    <button type="button" class="btn btn-outline-primary ml-2" (click)="onCancel()">取消</button>
+                </div>
+            </div>           
+        </div>       
+    </form>
+    <div *ngIf="payLoad" class="form-group">
+        <strong>Here's the payload</strong><br>{{payLoad}}
+    </div>
+</div>

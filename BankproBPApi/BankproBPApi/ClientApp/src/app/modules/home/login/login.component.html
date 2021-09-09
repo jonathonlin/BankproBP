@@ -1,0 +1,31 @@
+
+<div fxLayout fxFlexFill fxLayoutAlign="center center">
+    <mat-card fxFlex="30%">        
+        <div color="primary">
+            <h2>系統登入</h2>
+        </div>        
+        <div>
+            <form [formGroup]="loginform">
+                <mat-form-field>
+                    <mat-label>帳號</mat-label>
+                    <input matInput placeholder="帳號" formControlName="account">
+                    <mat-error *ngIf="account.errors">
+                        帳號 必輸
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>密碼</mat-label>
+                    <input matInput placeholder="密碼" type="password" formControlName="password">
+                    <mat-error *ngIf="password.errors">
+                        密碼 必輸
+                    </mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="loginform.invalid">登入</button>
+                    <!-- <button mat-button (click)="onForget()" type="button">忘記密碼</button>     -->
+                </div>
+            </form>  
+            <div *ngIf="error" class="alert alert-danger" style="margin-top: 1rem;">{{error}}</div>          
+        </div>
+    </mat-card>   
+</div>

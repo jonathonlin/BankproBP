@@ -1,0 +1,13 @@
+<h4 mat-dialog-title >{{data.title}}</h4>
+<mat-dialog-content>
+    <p *ngIf="data.type !== 'prompt'" >{{data.content}}</p>    
+    <mat-form-field *ngIf="data.type === 'prompt'">
+        <mat-label>{{data.content}}</mat-label>
+        <input matInput [(ngModel)]="data.result">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">    
+    <button class="btn btn-primary btn-sm" [mat-dialog-close]="data.result">確定</button>
+    <button *ngIf="data.type !== 'alert'" class="btn btn-outline-primary btn-sm ml-2" [mat-dialog-close]="false" >取消</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,42 @@
+<div [formGroup]="form" class="form-group">
+    <div [ngSwitch]="input.controlType">
+        <div *ngSwitchCase="'textbox'">
+            <mat-form-field appearance="fill">
+                <mat-label>{{input.label}}</mat-label>
+                <input matInput placeholder="{{input.label}}" [formControlName]="input.key" [id]="input.key" [type]="input.type" [readonly]="input.readonly" >                
+                <mat-error *ngIf="!isValid">
+                    {{errorMessage}}
+                </mat-error>
+            </mat-form-field>              
+        </div>
+        <div *ngSwitchCase="'dropdown'">
+            <mat-form-field appearance="fill">
+                <mat-label>{{input.label}}</mat-label>
+                <mat-select [formControlName]="input.key" [id]="input.key" (ngModelChange)="onChange()">
+                  <mat-option *ngFor="let opt of input.options" [value]="opt.key">
+                    {{opt.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!isValid">
+                    {{errorMessage}}
+                </mat-error>
+            </mat-form-field>            
+        </div>
+        <div *ngSwitchCase="'checkbox'">
+            <div class="form-check">
+                <input class="form-check-input" [formControlName]="input.key" [id]="input.key" type="checkbox">
+                <label class="form-check-labe" [attr.for]="input.key">{{input.label}}</label>       
+            </div>     
+        </div>
+        <div *ngSwitchCase="'radio'">
+            <div class="form-check form-check-inline" *ngFor="let opt of input.options">
+                <input class="form-check-input" [formControlName]="input.key" [id]="input.key" type="radio" [value]="opt.value">
+                <label class="form-check-labe" [attr.for]="opt.key">{{opt.value}}</label>       
+            </div>
+        </div>
+        <div *ngSwitchCase="'textarea'">
+            <label [attr.for]="input.key">{{input.label}}</label>
+            <textarea class="form-control" [formControlName]="input.key" [id]="input.key" rows="5"></textarea>
+        </div>
+    </div>
+</div>

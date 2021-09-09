@@ -1,0 +1,206 @@
+<div class="card">
+    <div class="card-header">
+        {{title}}
+    </div>    
+    <div class="card-body">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>客戶</mat-label>
+                            <mat-select formControlName="customerId" required>
+                                <mat-option *ngFor="let opt of customerOptions" [value]="opt.key">
+                                  {{opt.value}}
+                                </mat-option>
+                              </mat-select>                               
+                            <mat-error *ngIf="customerId.invalid && (customerId.dirty || customerId.touched)">
+                                <div *ngIf="customerId.errors?.required">
+                                    客戶必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field> 
+                    </div>
+                </div>
+                <div class="col-3">
+                    <app-year-month-picker [form]="form" [label]="'帳單年月'" [name]="'yearMonth'"></app-year-month-picker>
+                </div>  
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>帳單單號</mat-label>
+                            <input matInput placeholder="應收單號" formControlName="apNo" id="apNo" type="text" readonly required>             
+                            <mat-error *ngIf="apNo.invalid && (apNo.dirty || apNo.touched)">
+                                <div *ngIf="apNo.errors?.required">
+                                    帳單單號必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field>                         
+                    </div> 
+                </div>      
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>發票號碼</mat-label>
+                            <input matInput placeholder="發票號碼" formControlName="invoiceNo" id="invoiceNo" type="text" required>             
+                            <mat-error *ngIf="invoiceNo.invalid && (invoiceNo.dirty || invoiceNo.touched)">
+                                <div *ngIf="invoiceNo.errors?.required">
+                                    發票號碼必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field>                         
+                    </div> 
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>發票日期</mat-label>
+                            <input matInput [matDatepicker]="invoiceDatePicker" placeholder="發票日期" formControlName="invoiceDate" id="invoiceDate" type="text" readonly required>             
+                            <mat-datepicker-toggle matSuffix [for]="invoiceDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #invoiceDatePicker></mat-datepicker>
+                            <mat-error *ngIf="invoiceDate.invalid && (invoiceDate.dirty || invoiceDate.touched)">
+                                <div *ngIf="invoiceDate.errors?.required">
+                                    發票日期必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field> 
+                    </div> 
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>發票金額</mat-label>
+                            <input matInput formControlName="invoiceAmount" id="invoiceAmount" type="number" required>             
+                            <mat-error *ngIf="invoiceAmount.invalid && (invoiceAmount.dirty || invoiceAmount.touched)">
+                                <div *ngIf="invoiceAmount.errors?.required">
+                                    發票金額必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field>                         
+                    </div> 
+                </div>           
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>應收金額</mat-label>
+                            <input matInput placeholder="應收金額" formControlName="apAmount" id="apAmount" type="number" required>             
+                            <mat-error *ngIf="apAmount.invalid && (apAmount.dirty || apAmount.touched)">
+                                <div *ngIf="apAmount.errors?.required">
+                                    應收金額必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field>                         
+                    </div> 
+                </div> 
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>繳費期限</mat-label>
+                            <input matInput [matDatepicker]="expireDatePicker" placeholder="繳費期限" formControlName="expireDate" id="expiredDate" type="text" readonly required>             
+                            <mat-datepicker-toggle matSuffix [for]="expireDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #expireDatePicker></mat-datepicker>
+                            <mat-error *ngIf="expireDate.invalid && (expireDate.dirty || expireDate.touched)">
+                                <div *ngIf="expireDate.errors?.required">
+                                    繳費期限必輸
+                                </div>
+                            </mat-error>
+                        </mat-form-field>                         
+                    </div> 
+                </div> 
+                <div class="col-3">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill">
+                            <mat-label>備註</mat-label>
+                            <input matInput placeholder="備註" formControlName="note" id="note" type="text">                                         
+                        </mat-form-field>                         
+                    </div> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive" formArrayName="accountPayableDetails" style="padding: 1%;">                        
+                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                            <ng-container matColumnDef="tableTitle">
+                                <mat-header-cell *matHeaderCellDef>明細資料</mat-header-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <button mat-icon-button color="accent" type="button" (click)="addDetail()">
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+                                </mat-header-cell>                                
+                                <mat-cell *matCellDef="let element;let i=index" [formGroup]="element">
+                                    <button mat-icon-button color="warn" type="button" (click)="removeDetail(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>                                    
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="productName">
+                                <mat-header-cell *matHeaderCellDef>商品名稱</mat-header-cell>                                
+                                <mat-cell *matCellDef="let element" [formGroup]="element">
+                                    <mat-form-field floatLabel="never">
+                                        <mat-label>商品名稱</mat-label>
+                                        <input matInput formControlName="productName" required>
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="unitPrice">
+                                <mat-header-cell *matHeaderCellDef>單價</mat-header-cell>                                
+                                <mat-cell *matCellDef="let element" [formGroup]="element">
+                                    <mat-form-field floatLabel="never">
+                                        <mat-label>單價</mat-label>
+                                        <input matInput type="number" formControlName="unitPrice" (blur)="updateTableView()" required>
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="quantity">
+                                <mat-header-cell *matHeaderCellDef>數量</mat-header-cell>                                
+                                <mat-cell *matCellDef="let element" [formGroup]="element">
+                                    <mat-form-field floatLabel="never">
+                                        <mat-label>數量</mat-label>
+                                        <input matInput type="number" formControlName="quantity" (blur)="updateTableView()" required>
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="totalAmount">
+                                <mat-header-cell *matHeaderCellDef>小計</mat-header-cell>                                
+                                <mat-cell *matCellDef="let element" [formGroup]="element">
+                                    <mat-form-field floatLabel="never">
+                                        <mat-label>小計</mat-label>
+                                        <input matInput type="number" formControlName="totalAmount" readonly required>
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="note">
+                                <mat-header-cell *matHeaderCellDef>備註</mat-header-cell>                                
+                                <mat-cell *matCellDef="let element" [formGroup]="element">
+                                    <mat-form-field floatLabel="never">
+                                        <mat-label>備註</mat-label>
+                                        <input matInput type="text" formControlName="note">
+                                    </mat-form-field>
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="['tableTitle']"></mat-header-row>
+                            <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>        
+                            <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row> 
+                        </mat-table>
+                    </div>
+                </div>         
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group mt-2">                        
+                        <button type="submit" class="btn btn-primary ml-2" [disabled]="form.invalid">儲存</button>
+                        <button type="button" class="btn btn-outline-primary ml-2" (click)="onCancel()">取消</button>
+                    </div>
+                </div>           
+            </div>        
+        </form>
+    </div>
+</div>
+<div>
+    {{payload}}
+</div>

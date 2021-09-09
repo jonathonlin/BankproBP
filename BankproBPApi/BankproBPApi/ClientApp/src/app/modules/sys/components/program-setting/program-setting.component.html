@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        {{title}}
+    </div>    
+    <div class="card-body">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>    
+        <div *ngIf="success" class="alert alert-success" role="alert">
+            設定完成。
+        </div>
+        <div fxLayout fxLayoutAlign="start center">            
+            <div class="mr-2">
+                <mat-form-field appearance="fill">
+                    <mat-label>角色</mat-label>                
+                    <mat-select [(ngModel)]="roleId" (selectionChange)="onSelectChange()">
+                    <mat-option *ngFor="let opt of roleOptions" [value]="opt.value">
+                        {{opt.text}}
+                    </mat-option>
+                    </mat-select>            
+                </mat-form-field>    
+            </div>
+            <div>
+                <button class="btn btn-success btn-sm" (click)="onSave()">儲存</button>
+            </div>
+        </div>
+        <div>
+            
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>      
+                        <button mat-icon-button disabled></button>
+                        <mat-checkbox 
+                            [checked]="checklistSelection.isSelected(node)"
+                            (change)="todoLeafItemSelectionToggle(node)">{{node.name}}</mat-checkbox>
+                    </mat-tree-node>    
+                    
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding style="align-items: flex-end;">
+                        
+                        <button mat-icon-button matTreeNodeToggle 
+                            [attr.aria-label]="'Toggle ' + node.item">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </button>
+                        <mat-checkbox 
+                            [checked]="descendantsAllSelected(node)"
+                            [indeterminate]="descendantsPartiallySelected(node)"
+                            (change)="todoItemSelectionToggle(node)">{{node.name}}</mat-checkbox>
+                        
+                    </mat-tree-node>
+                </mat-tree>            
+            
+        </div>  
+    </div>
+</div>

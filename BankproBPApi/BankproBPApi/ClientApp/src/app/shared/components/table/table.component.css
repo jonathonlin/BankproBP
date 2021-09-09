@@ -1,0 +1,13 @@
+table {
+    width: 100%;
+}
+
+mat-cell:last-child{
+    display:flex !important;
+    justify-content:flex-end!important;  
+}
+
+.hide{
+    display: none;
+}
+

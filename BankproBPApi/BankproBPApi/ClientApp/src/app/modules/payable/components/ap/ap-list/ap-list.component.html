@@ -1,0 +1,66 @@
+<div class="container-fluid p-2"> 
+    <div class="card">
+        <form [formGroup]="queryForm">
+            <div class="card-header">{{title}} - 請輸入查詢條件</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                      <mat-form-field appearance="legacy">
+                        <mat-label>客戶</mat-label>
+                        <mat-select formControlName="customerId">
+                          <mat-option *ngFor="let opt of customerOptions" [value]="opt.key">
+                            {{opt.value}}
+                          </mat-option>
+                        </mat-select>                                               
+                      </mat-form-field> 
+                    </div>
+                    <div class="col-4">                         
+                        <mat-form-field appearance="legacy">
+                          <mat-label>帳單年月</mat-label>
+                          <input matInput placeholder="帳單年月" formControlName="yearMonth">                 
+                        </mat-form-field>
+                    </div>   
+                    <div class="col-4">                         
+                        <mat-form-field appearance="legacy">
+                          <mat-label>帳單編號</mat-label>
+                          <input matInput placeholder="帳單編號" formControlName="apNo">                 
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">                         
+                        <mat-form-field appearance="legacy">
+                          <mat-label>發票號碼</mat-label>
+                          <input matInput placeholder="發票號碼" formControlName="invoiceNo">                 
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">                         
+                        <mat-form-field appearance="legacy">
+                          <mat-label>帳單狀態</mat-label>
+                          <mat-select formControlName="apStatus">
+                            <mat-option *ngFor="let opt of apStatusOptions" [value]="opt.key">
+                              {{opt.value}}
+                            </mat-option>
+                          </mat-select>                
+                        </mat-form-field>
+                    </div>                                  
+                </div>               
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">                
+                        <a routerLink="add" class="btn btn-success btn-sm">新增</a>                
+                        <button type="button" class="btn btn-success btn-sm ml-2" (click)="initialQuery()">查詢</button>                         
+                    </div>
+                  </div>
+            </div>
+        </form>
+    </div>
+    
+    <app-table 
+      [dataSource]="dataSource" 
+      [initColumns]="displayedColumns" 
+      (pageChange)="onPaginateChange($event)" 
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)"
+      (sort)="onSortData($event)" ></app-table>
+    
+</div>

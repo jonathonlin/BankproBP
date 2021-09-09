@@ -1,0 +1,38 @@
+<div *ngIf="dataSource && dataSource.data" class="table-responsive">
+    <table mat-table [dataSource]="dataSource.data" matSort (matSortChange)="sortData($event)" class="table">
+        <ng-container *ngFor="let col of initColumns">
+            <ng-container [ngSwitch]="col.key">
+                <ng-container *ngSwitchCase="'actions'" matColumnDef="actions">
+                    <mat-header-cell [style.flex]="col.width ? '0 0 ' + col.width : '1'" *matHeaderCellDef></mat-header-cell>
+                    <mat-cell [style.flex]="col.width ? '0 0 ' + col.width : '1'" *matCellDef="let element"> 
+                      <button mat-icon-button color="primary" (click)="onEdit(element.id)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="onDelete(element.id)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </mat-cell>
+                </ng-container>
+                <ng-container *ngSwitchDefault matColumnDef="{{col.key}}">               
+                    <mat-header-cell [style.flex]="col.width ? '0 0 ' + col.width : '1'" *matHeaderCellDef mat-sort-header>{{col.name}}</mat-header-cell>
+                    <mat-cell [style.flex]="col.width ? '0 0 ' + col.width: '1'" *matCellDef="let element">{{element[col.key]}}</mat-cell>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="initColumns.length" style="justify-content: center;">
+                查無資料
+            </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>  
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': dataSource.totalNumber > 0}" style="justify-content: center;font-style: italic;"></mat-footer-row>
+    </table>
+    <mat-paginator 
+          [length]="dataSource.totalNumber" 
+          [pageSize]="dataSource.pageSize" 
+          [pageSizeOptions]="[5, 10, 20]" 
+          (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
+</div>

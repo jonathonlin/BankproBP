@@ -1,0 +1,12 @@
+.invisible {
+    display: none;
+}
+
+mat-tree-node{
+    width: 200px;
+}
+
+.mat-list-item.active{
+    color: #fff;
+    background-color: #dc3545; 
+}

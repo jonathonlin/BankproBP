@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ApplicationUser.cs~RF23eeaaf2.TMP" />
+    <None Remove="Core\Current.cs~RF239c93fe.TMP" />
+    <None Remove="Core\QueryOptions.cs~RFa889a1.TMP" />
+    <None Remove="Dtos\CompanyProgramDTO.cs~RF23bec3c3.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+  </ItemGroup>
+
+</Project>

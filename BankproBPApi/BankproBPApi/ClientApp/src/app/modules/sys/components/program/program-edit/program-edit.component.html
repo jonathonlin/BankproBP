@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-header">
+        {{title}}
+    </div>    
+    <div class="card-body">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>
+        <app-dynamic-form [formFields]="formFields" (cancel)="onCancel()" (submitData)="onSave($event)" [data]="data" (formValueChange)="onFormValueChange($event)"></app-dynamic-form>
+    </div>
+</div>
